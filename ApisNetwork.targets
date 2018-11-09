@@ -1,0 +1,11 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Authors>Joan Caron</Authors>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/apis-network/core</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/apis-network/core</PackageProjectUrl>
+    <PackageIconUrl>https://avatars2.githubusercontent.com/u/43879698?s=256</PackageIconUrl>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <Copyright>Copyright Joan Caron 2018</Copyright>
+  </PropertyGroup>
+</Project>
