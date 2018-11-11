@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -54,6 +55,23 @@ namespace ApisNetwork.Core.Tests.RateLimiter
             Thread.Sleep(this._defaultCacheDuration);
             var canExecute = await this._ipRateLimiter.CanExecuteAsync(this._requestMock.Object);
             Assert.True(canExecute);
+        }
+
+        [Fact]
+        public async Task ShouldTakeRemoteIpWhenNoHeader()
+        {
+            var ip = new StringValues("1.1.1.1");
+            var expectedIp = IPAddress.Parse("2.2.2.2");
+            var memoryCache = new MemoryCache(new MemoryCacheOptions());
+
+            this._requestMock.Setup(request => request.Headers.TryGetValue(It.IsAny<string>(), out ip)).Returns(false);
+            this._requestMock.Setup(request => request.HttpContext.Connection.RemoteIpAddress).Returns(expectedIp);
+
+            var rateLimiter = new IpRateLimiter(memoryCache, this._defaultCacheDuration);
+            var canExecute = await rateLimiter.CanExecuteAsync(this._requestMock.Object);
+
+            Assert.True(canExecute);
+            Assert.True(memoryCache.TryGetValue(expectedIp.ToString(), out _));
         }
     }
 }
